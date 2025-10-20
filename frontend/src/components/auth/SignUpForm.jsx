@@ -13,7 +13,6 @@ const SignUpForm = () => {
         transition={{ duration: 0.6 }}
         className="bg-white shadow-xl rounded-2xl p-8 w-full max-w-sm"
       >
-        {/* Logo / Title */}
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
           Create your <span className="text-pink-500">ZaraFashion</span> Account
         </h2>

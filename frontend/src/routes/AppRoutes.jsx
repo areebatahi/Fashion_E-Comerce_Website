@@ -13,8 +13,8 @@ import AdminDashboard from "../pages/AdminDashboard";
 import NotFound from "../pages/NotFound";
 import Header from "../components/common/Header";
 import Footer from "../components/common/Footer";
-import Contact from "../components/common/Contact";
-import About from "../components/common/About";
+import Contact from "../pages/Contact";
+import About from "../pages/About";
 
 const AppRoutes = () => {
     return (
@@ -31,7 +31,7 @@ const AppRoutes = () => {
                 <Route path="/checkout" element={<Checkout />} />
                 <Route path="/orders" element={<Orders />} />
                 <Route path="/profile" element={<Profile />} />
-                <Route path="/conatct" element={<Contact />} />
+                <Route path="/contact" element={<Contact />} />
                 <Route path="/about" element={<About />} />
 
 
