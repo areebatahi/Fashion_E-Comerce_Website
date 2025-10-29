@@ -1,146 +1,54 @@
 import React from 'react'
-import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
-import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { Link, NavLink } from 'react-router-dom'
+import { FaHeart, FaShoppingCart, FaUser, FaMoon, FaSun } from 'react-icons/fa'
+import { useSelector, useDispatch } from 'react-redux'
+import { toggleTheme } from '../../redux/slices/themeSlice'
 
-const navigation = [
-    { name: 'Home', href: '/home', current: true },
-    { name: 'Shop', href: '/shop', current: false },
-    { name: 'Wishlist', href: '/wishlist', current: false },
-    { name: 'Cart', href: '/cart', current: false },
-    //     {
-    //         user? [
-    //             { name: 'Orders', href: '/order', current: false },
-    //             { name: 'Profile', href: '/profile', current: false },
-    // //    {user.isAdmin} { name: 'Admin', href: '/admin', current: false },
-    //        ]: [
-    //                 { name: 'login', href: '/login', current: false },
-    //             ]
-    //     }
-]
+const Navbar = () => {
+  const cartCount = useSelector(s => s.cart.items.reduce((a,b) => a + b.qty, 0))
+  const wishlistCount = 0
+  const dispatch = useDispatch()
+  const dark = useSelector(s => s.theme.dark)
 
-function classNames(...classes) {
-    return classes.filter(Boolean).join(' ')
-}
+  return (
+    <header className="bg-white shadow sticky top-0 z-30">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between h-16 items-center">
+          <Link to="/" className="text-2xl font-bold text-brand-600">ZaraFashion</Link>
 
-function Navbar() {
-    return (
-        <>
-            <Disclosure as="nav" className="relative bg-gray-800">
-                <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-                    <div className="relative flex h-16 items-center justify-between">
-                        <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
-                            {/* Mobile menu button*/}
-                            <DisclosureButton className="group relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-white/5 hover:text-white focus:outline-2 focus:-outline-offset-1 focus:outline-indigo-500">
-                                <span className="absolute -inset-0.5" />
-                                <span className="sr-only">Open main menu</span>
-                                <Bars3Icon aria-hidden="true" className="block size-6 group-data-open:hidden" />
-                                <XMarkIcon aria-hidden="true" className="hidden size-6 group-data-open:block" />
-                            </DisclosureButton>
-                        </div>
-                        <div className="flex shrink-0 items-center hidden sm:block">
-                            <img
-                                alt="Your Company"
-                                src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500"
-                                className="h-8 w-auto"
-                            />
-                        </div>
-                        <div className="flex flex-1 items-center justify-center sm:items-stretch ">
-                            <div className="hidden sm:ml-6 sm:block">
-                                <div className="flex space-x-4">
-                                    {navigation.map((item) => (
-                                        <a
-                                            key={item.name}
-                                            href={item.href}
-                                            aria-current={item.current ? 'page' : undefined}
-                                            className={classNames(
-                                                item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-white/5 hover:text-white',
-                                                'rounded-md px-3 py-2 text-sm font-medium',
-                                            )}
-                                        >
-                                            {item.name}
-                                        </a>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
-                        <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                            <button
-                                type="button"
-                                className="relative rounded-full p-1 text-gray-400 focus:outline-2 focus:outline-offset-2 focus:outline-indigo-500"
-                            >
-                                <span className="absolute -inset-1.5" />
-                                <span className="sr-only">View notifications</span>
-                                <BellIcon aria-hidden="true" className="size-6" />
-                            </button>
+          <nav className="hidden md:flex space-x-8">
+            <NavLink to="/" className={({isActive})=> isActive? 'text-gray-900' : 'text-gray-600'}>Home</NavLink>
+            <NavLink to="/shop" className={({isActive})=> isActive? 'text-gray-900' : 'text-gray-600'}>Shop</NavLink>
+            <NavLink to="/profile" className={({isActive})=> isActive? 'text-gray-900' : 'text-gray-600'}>Profile</NavLink>
+            <NavLink to="/contact" className={({isActive})=> isActive? 'text-gray-900' : 'text-gray-600'}>Contact</NavLink>
+          </nav>
 
-                            {/* Profile dropdown */}
-                            <Menu as="div" className="relative ml-3">
-                                <MenuButton className="relative flex rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
-                                    <span className="absolute -inset-1.5" />
-                                    <span className="sr-only">Open user menu</span>
-                                    <img
-                                        alt=""
-                                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                                        className="size-8 rounded-full bg-gray-800 outline -outline-offset-1 outline-white/10"
-                                    />
-                                </MenuButton>
+          <div className="flex items-center gap-4">
+            <button onClick={()=>dispatch(toggleTheme())} className="p-2 rounded hover:bg-gray-100">
+              {dark ? <FaSun/> : <FaMoon/>}
+            </button>
 
-                                <MenuItems
-                                    transition
-                                    className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg outline outline-black/5 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
-                                >
-                                    <MenuItem>
-                                        <a
-                                            href="/profile"
-                                            className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:outline-hidden"
-                                        >
-                                            Your profile
-                                        </a>
-                                    </MenuItem>
-                                    <MenuItem>
-                                        <a
-                                            href="/orders"
-                                            className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:outline-hidden"
-                                        >
-                                            Order
-                                        </a>
-                                    </MenuItem>
-                                    <MenuItem>
-                                        <a
-                                            href="/logout"
-                                            className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:outline-hidden"
-                                        >
-                                            Logout
-                                        </a>
-                                    </MenuItem>
-                                </MenuItems>
-                            </Menu>
-                        </div>
-                    </div>
-                </div>
+            <Link to="/wishlist" className="relative p-2">
+              <FaHeart className="text-lg text-gray-700" />
+              {wishlistCount>0 && <span className="absolute -top-1 -right-1 bg-pink-500 text-white text-xs rounded-full px-1">{wishlistCount}</span>}
+            </Link>
 
-                <DisclosurePanel className="sm:hidden">
-                    <div className="space-y-1 px-2 pt-2 pb-3">
-                        {navigation.map((item) => (
-                            <DisclosureButton
-                                key={item.name}
-                                as="a"
-                                href={item.href}
-                                aria-current={item.current ? 'page' : undefined}
-                                className={classNames(
-                                    item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-white/5 hover:text-white',
-                                    'block rounded-md px-3 py-2 text-base font-medium',
-                                )}
-                            >
-                                {item.name}
-                            </DisclosureButton>
-                        ))}
-                    </div>
-                </DisclosurePanel>
-            </Disclosure>
+            <Link to="/cart" className="relative p-2">
+              <FaShoppingCart className="text-lg text-gray-700" />
+              {cartCount>0 && <span className="absolute -top-1 -right-1 bg-brand-500 text-white text-xs rounded-full px-1">{cartCount}</span>}
+            </Link>
 
-        </>
-    )
+            <Link to="/login" className="p-2"><FaUser className="text-gray-700" /></Link>
+
+            {/* simple mobile menu placeholder */}
+            <div className="md:hidden">
+              <button className="p-2 rounded hover:bg-gray-100">☰</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+  )
 }
 
 export default Navbar

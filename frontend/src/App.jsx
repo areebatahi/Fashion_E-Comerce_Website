@@ -1,14 +1,16 @@
-import AppRoutes from "./routes/AppRoutes"
+import React from 'react'
+import Navbar from './components/common/Navbar'
+import Footer from './components/common/Footer'
+import AppRoutes from './routes/AppRoutes'
 
-
-function App() {
-
+export default function App(){
   return (
-    <>
-      <AppRoutes />
-      {/* <div className="mt-6"></div> */}
-    </>
+    <div className="min-h-screen flex flex-col">
+      <Navbar />
+      <main className="flex-1">
+        <AppRoutes />
+      </main>
+      <Footer />
+    </div>
   )
 }
-
-export default App
